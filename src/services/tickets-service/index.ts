@@ -1,4 +1,5 @@
 import ticketsRepository from "@/repositories/tickets-repository"
+import { TicketNotFoundError } from "./errors"
 
 export async function getTicketsTypes(){
     const tickets = await ticketsRepository.getTicketsTypes()
@@ -6,7 +7,15 @@ export async function getTicketsTypes(){
     return tickets
 }
 
+export async function getTicket(userId: number){
+    const ticket = await ticketsRepository.getTicket(userId)
+    console.log(ticket)
+    if(ticket == null) throw TicketNotFoundError()
+    return ticket
+}
+
 const ticketService = {
-    getTicketsTypes
+    getTicketsTypes,
+    getTicket
 }
 export default ticketService
