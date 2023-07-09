@@ -1,9 +1,7 @@
 import { prisma } from '@/config';
-import { notFoundError } from '@/errors';
 import { ticketTypeIdNotFound } from '@/errors/ticket-type-id-not-found';
 import { userNotEnrolledError } from '@/errors/user-not-enrolled-error';
-import { TicketData, TicketType } from '@/protocols';
-import dayjs from 'dayjs';
+import { TicketData } from '@/protocols';
 
 export async function getTicketsTypes() {
   const tickets = await prisma.ticketType.findMany()

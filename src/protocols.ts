@@ -76,3 +76,23 @@ export type TicketData = {
 }
 
 export type CreateTicket = Omit<TicketData, "id">
+
+export type PaymentData = {
+  ticketId: number;
+  value: number;
+  cardIssuer: 'VISA' | 'MASTERCARD';
+  cardLastDigits: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type CreatePayment = {
+	ticketId: number,
+	cardData: {
+		issuer: string,
+    number: number,
+    name: string,
+    expirationDate: Date,
+    cvv: number
+	}
+}
