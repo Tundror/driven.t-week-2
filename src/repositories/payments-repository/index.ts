@@ -1,6 +1,6 @@
 import { prisma } from '@/config';
 import { notFoundError, unauthorizedError } from '@/errors';
-import { CreatePayment } from '@/protocols';
+import { CreatePayment, PaymentData } from '@/protocols';
 
 export async function MakePayment(body: CreatePayment, userId: number){
     const {ticketId} = body
@@ -43,8 +43,36 @@ export async function MakePayment(body: CreatePayment, userId: number){
     return paymentResult
   }
 
+  export async function getPayment(ticketId: number, userId: number){
+    const ticket = await prisma.ticket.findUnique({
+        where: {
+          id: ticketId,
+        },
+        include: {
+          Enrollment: true,
+          TicketType: true
+        },
+      });
+
+  if (!ticket) {
+    throw notFoundError()
+  }
+  if (ticket.Enrollment.userId !== userId) {
+    throw unauthorizedError();
+  }
+
+  const payment = await prisma.payment.findFirst({
+    where: {
+        ticketId: ticketId
+    }
+  })
+
+  return payment
+  }
+
   const paymentRepository = {
-    MakePayment
+    MakePayment,
+    getPayment
   }
   
   export default paymentRepository

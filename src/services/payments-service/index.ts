@@ -6,8 +6,14 @@ export async function MakePayment (body: CreatePayment, userId: number){
     return result
 }
 
+export async function GetPayment (ticketId: number, userId: number){
+    const ticket = await paymentRepository.getPayment(ticketId, userId)
+    return ticket
+}
+
 const paymentService = {
-    MakePayment
+    MakePayment,
+    GetPayment
 }
 
 export default paymentService

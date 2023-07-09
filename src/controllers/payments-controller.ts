@@ -7,7 +7,7 @@ interface AuthenticatedRequest extends Request {
     userId?: number;
   }
 
-export async function createPayment(req: AuthenticatedRequest, res: Response): Promise<void> {
+export async function createPayment(req: AuthenticatedRequest, res: Response){
     const { ticketId, cardData } = req.body;
     const body = req.body as CreatePayment
     const userId = req.userId as number
@@ -17,5 +17,19 @@ export async function createPayment(req: AuthenticatedRequest, res: Response): P
     }
 
     const payment = await paymentService.MakePayment(body, userId)
+    res.status(httpStatus.OK).send(payment)
+}
+
+export async function getPayment(req: AuthenticatedRequest, res: Response){
+    const userId = req.userId as number
+    const ticketId = req.query.ticketId as string
+    const parsedTicketId = parseInt(ticketId)
+
+    if (!ticketId || isNaN(parsedTicketId)) {
+        res.status(400).json({ error: 'Invalid ticketId.' });
+        return;
+      }
+    
+    const payment = await paymentService.GetPayment(parsedTicketId, userId)
     res.status(httpStatus.OK).send(payment)
 }
