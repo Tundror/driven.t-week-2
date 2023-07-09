@@ -11,6 +11,7 @@ export async function createPayment(req: AuthenticatedRequest, res: Response){
     const { ticketId, cardData } = req.body;
     const body = req.body as CreatePayment
     const userId = req.userId as number
+    console.log(body)
     if (!ticketId || !cardData) {
       res.status(400).json({ error: 'Missing ticketId or cardData in the request body.' });
       return;
