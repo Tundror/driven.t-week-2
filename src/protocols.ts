@@ -74,3 +74,5 @@ export type TicketData = {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type CreateTicket = Omit<TicketData, "id">

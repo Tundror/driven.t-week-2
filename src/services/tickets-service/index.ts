@@ -9,13 +9,19 @@ export async function getTicketsTypes(){
 
 export async function getTicket(userId: number){
     const ticket = await ticketsRepository.getTicket(userId)
-    console.log(ticket)
     if(ticket == null) throw TicketNotFoundError()
     return ticket
 }
 
+export async function postTicket(ticketTypeId: number, userId: number){
+    const result = await ticketsRepository.postTicket(ticketTypeId, userId)
+
+    return result
+}
+
 const ticketService = {
     getTicketsTypes,
-    getTicket
+    getTicket,
+    postTicket
 }
 export default ticketService
